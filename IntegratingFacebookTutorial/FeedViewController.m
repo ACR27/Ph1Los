@@ -8,12 +8,15 @@
 
 #import "FeedViewController.h"
 
+#import "FBMessage.h"
+
 @interface FeedViewController ()
 
 @end
 
 @implementation FeedViewController
 @synthesize tableView;
+@synthesize fbMessages;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -23,17 +26,21 @@
     }
     return self;
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    FacebookAPI *facebookAPI = [FacebookAPI getSharedDataFetcher];
+    [facebookAPI initWithFeed:self];
+    [facebookAPI getNewsFeed];
+    
+    
+    fbMessages = [[NSMutableArray alloc] initWithArray:nil];
     self.title = @"Facebook Profile";
     self.tableView.backgroundColor = [UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
     
     // Add logout navigation bar button
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonTouchHandler:)];
     self.navigationItem.leftBarButtonItem = logoutButton;
-    
     // Create array for table row titles
     //_rowTitleArray = @[@"Location", @"Gender", @"Date of Birth", @"Relationship"];
     
@@ -42,70 +49,12 @@
     
     
     // Create request for user's facebook data
-    NSString *requestPath = @"me/home?q=facebook";
     
-    // Send request to Facebook
-    PF_FBRequest *request = [PF_FBRequest requestForGraphPath:requestPath];
-    [request startWithCompletionHandler:^(PF_FBRequestConnection *connection, id result, NSError *error) {
-        // handle response
-        if (!error) {
-            // Parse the data received
-            NSDictionary *userData = (NSDictionary *)result;
-            NSLog(@"%@", userData);
-            /*
-            NSString *facebookId = userData[@"id"];
-            NSString *name = userData[@"name"];
-            NSString *location = userData[@"location"][@"name"];
-            NSString *gender = userData[@"gender"];
-            NSString *birthday = userData[@"birthday"];
-            NSString *relationship = userData[@"relationship_status"];
-            
-            // Set received values if they are not nil and reload the table
-            if (location) {
-                [_rowDataArray replaceObjectAtIndex:0 withObject:location];
-            }
-            
-            if (gender) {
-                [_rowDataArray replaceObjectAtIndex:1 withObject:gender];
-            }
-            
-            if (birthday) {
-                [_rowDataArray replaceObjectAtIndex:2 withObject:birthday];
-            }
-            
-            if (relationship) {
-                [_rowDataArray replaceObjectAtIndex:3 withObject:relationship];
-            }
-            
-            [self.tableView reloadData];
-            
-            // Set the name in the header view label
-            _headerNameLabel.text = name;
-            
-            
-            // Download the user's facebook profile picture
-            _imageData = [[NSMutableData alloc] init]; // the data will be loaded in here
-            
-            NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookId]];
-            
-            NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:pictureURL
-                                                                      cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                                  timeoutInterval:2.0f];
-            // Run network request asynchronously
-            NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
-            if (!urlConnection) {
-                NSLog(@"Failed to download picture");
-            }
-        } else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
-                    isEqualToString: @"OAuthException"]) { // Since the request failed, we can check if it was due to an invalid session
-            NSLog(@"The facebook session was invalidated");
-            [self logoutButtonTouchHandler:nil];
-        } else {
-            NSLog(@"Some other error: %@", error);
-             */
-        }
-             
-    }];
+}
+
+- (void) pushFBData:(NSMutableArray*) data {
+    fbMessages = data;
+    [tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -138,7 +87,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 1;
+    return [fbMessages count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -172,11 +121,22 @@
     
     // Display the data in the table
    // titleLabel.text = [_rowTitleArray objectAtIndex:indexPath.row];
-   // dataLabel.text = [_rowDataArray objectAtIndex:indexPath.row];
+    FBMessage *message = [fbMessages objectAtIndex:indexPath.row];
+    dataLabel.text = message.getContent;
     
     return cell;
 }
 
+
+#pragma mark - ()
+
+- (void)logoutButtonTouchHandler:(id)sender {
+    // Logout user, this automatically clears the cache
+    [PFUser logOut];
+    
+    // Return to login view controller
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 
 @end
