@@ -22,7 +22,8 @@
     // ****************************************************************************
     
     [PFFacebookUtils initializeWithApplicationId:@"465383433516234"];
-
+    [PFTwitterUtils initializeWithConsumerKey:@"DVTSCSdmwJhRCbfdjjQw" consumerSecret:@"kutMFwfgUO4kMCsmX3tgX2fDkan9UDrVLAybd9A"];
+    
     // Override point for customization after application launch.
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[LoginViewController alloc] init]];
     self.window.backgroundColor = [UIColor whiteColor];

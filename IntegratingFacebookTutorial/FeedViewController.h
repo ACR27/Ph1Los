@@ -9,14 +9,19 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "FacebookAPI.h"
+#import "TwitterAPI.h"
 
 
 @interface FeedViewController : UIViewController <NSURLConnectionDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) IBOutlet UITableView * tableView;
 @property (nonatomic, retain) NSMutableArray * fbMessages;
+@property (nonatomic, retain) NSMutableArray * twitterFeed;
 
 
 - (void) pushFBData:(NSMutableArray*) data;
+- (IBAction) twitterLogin:(id) sender;
+- (void) loadTwitterData;
+
 
 @end

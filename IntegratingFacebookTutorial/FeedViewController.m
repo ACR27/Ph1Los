@@ -17,6 +17,7 @@
 @implementation FeedViewController
 @synthesize tableView;
 @synthesize fbMessages;
+@synthesize twitterFeed;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,8 +34,12 @@
     [facebookAPI initWithFeed:self];
     [facebookAPI getNewsFeed];
     
+    TwitterAPI *twitterAPI = [TwitterAPI getSharedDataFetcher];
+    [twitterAPI initWithFeed:self];
     
     fbMessages = [[NSMutableArray alloc] initWithArray:nil];
+    twitterFeed = [[NSMutableArray alloc] initWithArray:nil];
+    
     self.title = @"Facebook Profile";
     self.tableView.backgroundColor = [UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
     
@@ -127,6 +132,43 @@
     return cell;
 }
 
+
+- (IBAction)twitterLogin:(id)sender {
+    [PFTwitterUtils logInWithBlock:^(PFUser *user, NSError *error) {
+        if (!user) {
+            NSLog(@"Uh oh. The user cancelled the Twitter login.");
+            return;
+        } else if (user.isNew) {
+            NSLog(@"User signed up and logged in with Twitter!");
+            if (![PFTwitterUtils isLinkedWithUser:user]) {
+                [PFTwitterUtils linkUser:user block:^(BOOL succeeded, NSError *error) {
+                    if ([PFTwitterUtils isLinkedWithUser:user]) {
+                        NSLog(@"Woohoo, user logged in with Twitter!");
+                    }
+                }];
+            }
+            [self loadTwitterData];
+        } else {
+            NSLog(@"User logged in with Twitter!");
+            if (![PFTwitterUtils isLinkedWithUser:user]) {
+                [PFTwitterUtils linkUser:user block:^(BOOL succeeded, NSError *error) {
+                    if ([PFTwitterUtils isLinkedWithUser:user]) {
+                        NSLog(@"Woohoo, user logged in with Twitter!");
+                    }
+                }];
+            }
+            [self loadTwitterData];
+        }     
+    }];
+}
+
+- (void) loadTwitterData {
+    
+    
+    [[TwitterAPI getSharedDataFetcher] getTwitterFeed];
+    NSLog(@"GOT FEED");
+    [tableView reloadData];
+}
 
 #pragma mark - ()
 

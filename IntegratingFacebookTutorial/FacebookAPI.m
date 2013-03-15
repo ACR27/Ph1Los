@@ -42,7 +42,8 @@ static FacebookAPI *sharedDataFetcher= nil;
         if (!error) {
             // Parse the data received
             NSDictionary *userData = (NSDictionary *)result;
-            NSLog(@"%@", userData);
+            // FB RESPONSE
+            //NSLog(@"%@", userData);
             
             NSArray * data = result[@"data"];
             [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {

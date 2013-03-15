@@ -14,6 +14,8 @@
 		092B9D8916CA1B1F00FCCE12 /* FBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B9D8816CA1B1F00FCCE12 /* FBMessage.m */; };
 		092B9D8D16CA1D4800FCCE12 /* FacebookAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B9D8C16CA1D4800FCCE12 /* FacebookAPI.m */; };
 		092B9D9A16CA248A00FCCE12 /* FacebookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B9D9916CA248A00FCCE12 /* FacebookCell.m */; };
+		09A9EC6316ED19D0000C44FA /* TwitterAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A9EC6216ED19D0000C44FA /* TwitterAPI.m */; };
+		09A9EC6616ED465D000C44FA /* TwitterMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A9EC6516ED465D000C44FA /* TwitterMessage.m */; };
 		C425016A161BBAE400474BCD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4250166161BBAE400474BCD /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C425016B161BBAE400474BCD /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4250167161BBAE400474BCD /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C425016C161BBAE400474BCD /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C4250168161BBAE400474BCD /* libsqlite3.dylib */; };
@@ -60,6 +62,10 @@
 		092B9D8C16CA1D4800FCCE12 /* FacebookAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookAPI.m; sourceTree = "<group>"; };
 		092B9D9816CA248A00FCCE12 /* FacebookCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookCell.h; path = ../FacebookCell.h; sourceTree = "<group>"; };
 		092B9D9916CA248A00FCCE12 /* FacebookCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookCell.m; path = ../FacebookCell.m; sourceTree = "<group>"; };
+		09A9EC6116ED19D0000C44FA /* TwitterAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterAPI.h; sourceTree = "<group>"; };
+		09A9EC6216ED19D0000C44FA /* TwitterAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterAPI.m; sourceTree = "<group>"; };
+		09A9EC6416ED465D000C44FA /* TwitterMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterMessage.h; sourceTree = "<group>"; };
+		09A9EC6516ED465D000C44FA /* TwitterMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterMessage.m; sourceTree = "<group>"; };
 		C4250166161BBAE400474BCD /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		C4250167161BBAE400474BCD /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		C4250168161BBAE400474BCD /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -139,6 +145,17 @@
 			name = Facebook;
 			sourceTree = "<group>";
 		};
+		09A9EC5F16ED19B0000C44FA /* Twitter */ = {
+			isa = PBXGroup;
+			children = (
+				09A9EC6416ED465D000C44FA /* TwitterMessage.h */,
+				09A9EC6516ED465D000C44FA /* TwitterMessage.m */,
+				09A9EC6116ED19D0000C44FA /* TwitterAPI.h */,
+				09A9EC6216ED19D0000C44FA /* TwitterAPI.m */,
+			);
+			name = Twitter;
+			sourceTree = "<group>";
+		};
 		D4DA79DF14D3345A0055F672 = {
 			isa = PBXGroup;
 			children = (
@@ -182,6 +199,7 @@
 		D4DA79F414D3345A0055F672 /* IntegratingFacebookTutorial */ = {
 			isa = PBXGroup;
 			children = (
+				09A9EC5F16ED19B0000C44FA /* Twitter */,
 				092B9D9B16CA249B00FCCE12 /* Facebook */,
 				D4DA79FD14D3345A0055F672 /* AppDelegate.h */,
 				D4DA79FE14D3345A0055F672 /* AppDelegate.m */,
@@ -303,6 +321,8 @@
 				092B9D8916CA1B1F00FCCE12 /* FBMessage.m in Sources */,
 				092B9D8D16CA1D4800FCCE12 /* FacebookAPI.m in Sources */,
 				092B9D9A16CA248A00FCCE12 /* FacebookCell.m in Sources */,
+				09A9EC6316ED19D0000C44FA /* TwitterAPI.m in Sources */,
+				09A9EC6616ED465D000C44FA /* TwitterMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
