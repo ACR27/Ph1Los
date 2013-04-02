@@ -14,6 +14,7 @@
 @property (nonatomic, retain) NSString * story;
 @property (nonatomic, retain) NSString * user_id;
 @property (nonatomic, retain) NSString * user;
+@property (nonatomic, retain) NSDate * date;
 
 
 -(NSString*) getContent;

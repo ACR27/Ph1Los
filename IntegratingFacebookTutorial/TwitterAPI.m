@@ -6,6 +6,7 @@
 //
 //
 
+#import "TwitterMessage.h"
 #import "TwitterAPI.h"
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
@@ -61,8 +62,10 @@ static TwitterAPI *sharedDataFetcher= nil;
                      //  Step 2:  Create a request
                      NSArray *twitterAccounts =
                      [self.accountStore accountsWithAccountType:twitterAccountType];
+                     
+                     // GET YOUR OWN TIMELINE (messages you have posted)
                      NSURL *url = [NSURL URLWithString:@"https://api.twitter.com"
-                                   @"/1.1/statuses/user_timeline.json"];
+                                   @"/1.1/statuses/home_timeline.json"];
                      NSDictionary *params = @{@"include_rts" : @"0"};
                      SLRequest *request =
                      [SLRequest requestForServiceType:SLServiceTypeTwitter
@@ -87,13 +90,29 @@ static TwitterAPI *sharedDataFetcher= nil;
                                   options:NSJSONReadingAllowFragments error:&jsonError];
                                  
                                  if (timelineData) {
-                                     NSLog(@"%@", timelineData);
+                                     //NSLog(@"%@", timelineData);
                                      [timelineData enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                                          TwitterMessage *message = [[TwitterMessage alloc] init];
-                                         message.message = obj[@"test"];
+                                         message.message = obj[@"text"];
                                          message.user = obj[@"user"][@"name"];
-                                         [results addObject:message]; 
+                                         
+                                         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                                         NSLocale *usLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+                                         [dateFormatter setLocale:usLocale];
+                                         [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+                                         [dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+                                         
+                                         // see http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns
+                                         [dateFormatter setDateFormat: @"EEE MMM dd HH:mm:ss Z yyyy"];
+                                         
+                                         message.date = [dateFormatter dateFromString:[obj objectForKey:@"created_at"]];
+                                         
+                                         //NSTimeInterval seconds = [date timeIntervalSince1970];
+                                         //Sun May 03 06:13:07 +0000 2009
+                                         NSLog(@"%@", message.date);
+                                         [results addObject:message];
                                      }];
+                                     [feed pushTwitterData:results];
                                  }
                                  else {
                                      // Our JSON deserialization went awry

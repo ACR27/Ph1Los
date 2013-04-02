@@ -9,6 +9,8 @@
 #import "FeedViewController.h"
 
 #import "FBMessage.h"
+#import "TwitterMessage.h"
+#import "GenericMessage.h"
 
 @interface FeedViewController ()
 
@@ -17,6 +19,7 @@
 @implementation FeedViewController
 @synthesize tableView;
 @synthesize fbMessages;
+@synthesize feed;
 @synthesize twitterFeed;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -39,6 +42,7 @@
     
     fbMessages = [[NSMutableArray alloc] initWithArray:nil];
     twitterFeed = [[NSMutableArray alloc] initWithArray:nil];
+    feed = [[NSMutableArray alloc] initWithArray:nil];
     
     self.title = @"Facebook Profile";
     self.tableView.backgroundColor = [UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
@@ -57,9 +61,50 @@
     
 }
 
+- (void) addToFeed:(NSMutableArray*) data {
+    [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        GenericMessage * message = [[GenericMessage alloc] init];
+        if([obj isKindOfClass:[FBMessage class]]) {
+            message.message = ((FBMessage*)obj).message;
+            message.user = ((FBMessage*)obj).user;
+            message.user_id = ((FBMessage*)obj).user_id;
+            message.date = ((FBMessage*)obj).date;
+            message.type = 1; //FACEBOOK
+            // TODO: MAKE THIS AN ENUM
+        } else if ([obj isKindOfClass:[TwitterMessage class]]) {
+            message.message = ((TwitterMessage*)obj).message;
+            message.user = ((TwitterMessage*)obj).user;
+            message.user_id = ((TwitterMessage*)obj).user_id;
+            message.date = ((TwitterMessage*)obj).date;
+            message.type = 2; //TWITTER
+            // TODO: MAKE THIS AN ENUM
+            
+        }
+        [feed addObject:message];
+    }];
+    
+    
+     
+    NSArray * sortedArray = [feed sortedArrayUsingSelector:@selector(compare:)];
+    
+    
+    feed = [[NSMutableArray alloc] initWithArray:sortedArray];
+    
+    
+    
+    
+    [tableView reloadData];
+    
+}
+
 - (void) pushFBData:(NSMutableArray*) data {
     fbMessages = data;
-    [tableView reloadData];
+    [self addToFeed:fbMessages];
+}
+
+- (void) pushTwitterData:(NSMutableArray *)data {
+    twitterFeed = data;
+    [self addToFeed:twitterFeed];
 }
 
 - (void)didReceiveMemoryWarning
@@ -92,46 +137,54 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return [fbMessages count];
+    return [feed count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    
+    //TODO Need to switch this based on the type of cell (i.e. Facebook / Twitter) 
     if (cell == nil) {
         // Create the cell and add the labels
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, 120.0f, 44.0f)];
-        titleLabel.tag = 1; // We use the tag to set it later
-        titleLabel.textAlignment = UITextAlignmentRight;
-        titleLabel.font = [UIFont boldSystemFontOfSize:13.0f];
-        titleLabel.backgroundColor = [UIColor clearColor];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, 120.0f, 44.0f)];
+//        titleLabel.tag = 1; // We use the tag to set it later
+//        titleLabel.font = [UIFont boldSystemFontOfSize:13.0f];
+//        titleLabel.backgroundColor = [UIColor clearColor];
+//        
+//        UILabel *dataLabel = [[UILabel alloc] initWithFrame:CGRectMake( 130.0f, 0.0f, 165.0f, 44.0f)];
+//        dataLabel.tag = 2; // We use the tag to set it later
+//        dataLabel.font = [UIFont systemFontOfSize:15.0f];
+//        dataLabel.backgroundColor = [UIColor clearColor];
         
-        UILabel *dataLabel = [[UILabel alloc] initWithFrame:CGRectMake( 130.0f, 0.0f, 165.0f, 44.0f)];
-        dataLabel.tag = 2; // We use the tag to set it later
-        dataLabel.font = [UIFont systemFontOfSize:15.0f];
-        dataLabel.backgroundColor = [UIColor clearColor];
-        
-        [cell.contentView addSubview:titleLabel];
-        [cell.contentView addSubview:dataLabel];
+//        [cell.contentView addSubview:titleLabel];
+//        [cell.contentView addSubview:dataLabel];
     }
     
     // Cannot select these cells
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    // Access labels in the cell using the tag #
-    UILabel *titleLabel = (UILabel *)[cell viewWithTag:1];
-    UILabel *dataLabel = (UILabel *)[cell viewWithTag:2];
+//    // Access labels in the cell using the tag #
+//    UILabel *titleLabel = (UILabel *)[cell viewWithTag:1];
+//    UILabel *dataLabel = (UILabel *)[cell viewWithTag:2];
     
     // Display the data in the table
    // titleLabel.text = [_rowTitleArray objectAtIndex:indexPath.row];
-    FBMessage *message = [fbMessages objectAtIndex:indexPath.row];
-    dataLabel.text = message.getContent;
+    
+    
+    GenericMessage* message = [feed objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%d: %@", message.type, message.message];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", message.date];
     
     return cell;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 100;
+}
 
 - (IBAction)twitterLogin:(id)sender {
     [PFTwitterUtils logInWithBlock:^(PFUser *user, NSError *error) {
@@ -170,7 +223,7 @@
     [tableView reloadData];
 }
 
-#pragma mark - ()
+#pragma mark - 
 
 - (void)logoutButtonTouchHandler:(id)sender {
     // Logout user, this automatically clears the cache

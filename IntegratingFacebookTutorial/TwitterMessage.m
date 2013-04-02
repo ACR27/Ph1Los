@@ -14,6 +14,7 @@
 @synthesize message;
 @synthesize user;
 @synthesize user_id;
+@synthesize date;
 
 
 

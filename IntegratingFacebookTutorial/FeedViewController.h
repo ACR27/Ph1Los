@@ -17,9 +17,11 @@
 @property (nonatomic, retain) IBOutlet UITableView * tableView;
 @property (nonatomic, retain) NSMutableArray * fbMessages;
 @property (nonatomic, retain) NSMutableArray * twitterFeed;
+@property (nonatomic, copy) NSMutableArray * feed;
 
 
 - (void) pushFBData:(NSMutableArray*) data;
+- (void) pushTwitterData:(NSMutableArray*) data;
 - (IBAction) twitterLogin:(id) sender;
 - (void) loadTwitterData;
 

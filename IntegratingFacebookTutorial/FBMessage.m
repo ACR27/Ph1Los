@@ -13,7 +13,7 @@
 @synthesize message, story;
 @synthesize user;
 @synthesize user_id;
-
+@synthesize date;
 
 -(NSString*) getContent {
     if(self.message == nil)

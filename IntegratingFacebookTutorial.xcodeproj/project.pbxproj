@@ -14,6 +14,8 @@
 		092B9D8916CA1B1F00FCCE12 /* FBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B9D8816CA1B1F00FCCE12 /* FBMessage.m */; };
 		092B9D8D16CA1D4800FCCE12 /* FacebookAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B9D8C16CA1D4800FCCE12 /* FacebookAPI.m */; };
 		092B9D9A16CA248A00FCCE12 /* FacebookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 092B9D9916CA248A00FCCE12 /* FacebookCell.m */; };
+		0940787C170AA372002ED746 /* TwitterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0940787B170AA372002ED746 /* TwitterCell.m */; };
+		0979736A170AAA4A00B7B30D /* GenericMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 09797369170AAA4A00B7B30D /* GenericMessage.m */; };
 		09A9EC6316ED19D0000C44FA /* TwitterAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A9EC6216ED19D0000C44FA /* TwitterAPI.m */; };
 		09A9EC6616ED465D000C44FA /* TwitterMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A9EC6516ED465D000C44FA /* TwitterMessage.m */; };
 		C425016A161BBAE400474BCD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4250166161BBAE400474BCD /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -62,6 +64,10 @@
 		092B9D8C16CA1D4800FCCE12 /* FacebookAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookAPI.m; sourceTree = "<group>"; };
 		092B9D9816CA248A00FCCE12 /* FacebookCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookCell.h; path = ../FacebookCell.h; sourceTree = "<group>"; };
 		092B9D9916CA248A00FCCE12 /* FacebookCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookCell.m; path = ../FacebookCell.m; sourceTree = "<group>"; };
+		0940787A170AA372002ED746 /* TwitterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterCell.h; sourceTree = "<group>"; };
+		0940787B170AA372002ED746 /* TwitterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterCell.m; sourceTree = "<group>"; };
+		09797368170AAA4A00B7B30D /* GenericMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericMessage.h; sourceTree = "<group>"; };
+		09797369170AAA4A00B7B30D /* GenericMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericMessage.m; sourceTree = "<group>"; };
 		09A9EC6116ED19D0000C44FA /* TwitterAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterAPI.h; sourceTree = "<group>"; };
 		09A9EC6216ED19D0000C44FA /* TwitterAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterAPI.m; sourceTree = "<group>"; };
 		09A9EC6416ED465D000C44FA /* TwitterMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterMessage.h; sourceTree = "<group>"; };
@@ -152,6 +158,8 @@
 				09A9EC6516ED465D000C44FA /* TwitterMessage.m */,
 				09A9EC6116ED19D0000C44FA /* TwitterAPI.h */,
 				09A9EC6216ED19D0000C44FA /* TwitterAPI.m */,
+				0940787A170AA372002ED746 /* TwitterCell.h */,
+				0940787B170AA372002ED746 /* TwitterCell.m */,
 			);
 			name = Twitter;
 			sourceTree = "<group>";
@@ -216,6 +224,8 @@
 				092B9D7F16CA093700FCCE12 /* PostViewController.m */,
 				092B9D8016CA093700FCCE12 /* PostViewController.xib */,
 				D4DA7AAE14D4674F0055F672 /* TableHeaderView.xib */,
+				09797368170AAA4A00B7B30D /* GenericMessage.h */,
+				09797369170AAA4A00B7B30D /* GenericMessage.m */,
 				D4DA79F514D3345A0055F672 /* Supporting Files */,
 			);
 			path = IntegratingFacebookTutorial;
@@ -323,6 +333,8 @@
 				092B9D9A16CA248A00FCCE12 /* FacebookCell.m in Sources */,
 				09A9EC6316ED19D0000C44FA /* TwitterAPI.m in Sources */,
 				09A9EC6616ED465D000C44FA /* TwitterMessage.m in Sources */,
+				0940787C170AA372002ED746 /* TwitterCell.m in Sources */,
+				0979736A170AAA4A00B7B30D /* GenericMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

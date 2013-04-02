@@ -46,23 +46,37 @@ static FacebookAPI *sharedDataFetcher= nil;
             //NSLog(@"%@", userData);
             
             NSArray * data = result[@"data"];
-            [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [data enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {                
                 NSDictionary * object = (NSDictionary*) obj;
-                
                 // Collect Facebook Data from request
                 NSString *user = object[@"from"][@"name"];
                 NSString* user_id = object[@"from"][@"id"];
                 NSString* message = object[@"message"];
                 NSString* story = object[@"story"];
+                
+                //NSDateFormatter *df = [[NSDateFormatter alloc] init];
+                //2010-12-01T21:35:43+0000
+                //[df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
+                //NSDate *date = [df dateFromString:[[object objectForKey:@"created_time"]// stringByReplacingOccurrencesOfString:@"T" withString:@""]];
+                
+                NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH:mm:ssZ"];
+                NSDate* date = [dateFormatter dateFromString:object[@"created_time"]];
+                
+                
                 // TODO get more facebook data info
                 
                 // Store the message
-                if(message != nil || story != nil) {
+                if(message != nil && ![message isEqualToString:@""]) {
                     FBMessage * fbpost  = [[FBMessage alloc] init];
                     fbpost.user = user;
                     fbpost.user_id = user_id;
                     fbpost.message = message;
+                    
                     fbpost.story = story;
+                    fbpost.date = date;
+                    
+                    NSLog(@"FB: %@",date);
                     [results addObject:fbpost];
                 }
                 
